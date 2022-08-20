@@ -32,6 +32,12 @@ class DynamoDB implements DB {
         return $response;
     }
 
+    public function create(array $statement)
+    {
+        $response = $this->client->putItem($statement);
+        return $response;
+    }
+
     public function beginTransaction()
     {
 
