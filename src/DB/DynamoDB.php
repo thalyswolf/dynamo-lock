@@ -7,19 +7,29 @@ use Aws\Credentials\CredentialProvider;
 
 class DynamoDB implements DB {
 
+    private $client;
+
     public function connect()
     {
+        $provider = CredentialProvider::defaultProvider();
 
+        $this->client = DynamoDbClient::factory(array(
+            'version' => '2012-08-10',
+            'credentials' => $provider,
+            'region'  => 'sa-east-1'
+        ));
     }
 
-    public function execute()
+    public function update(array $statement)
     {
-
+        $response = $this->client->updateItem($statement);
+        return $response;
     }
-    
-    public function findOne()
-    {
 
+    public function findOne(array $statement)
+    {
+        $response = $this->client->getItem($statement);
+        return $response;
     }
 
     public function beginTransaction()
