@@ -1,0 +1,9 @@
+vendor
+.phpunit.result.cache
+composer.lock
+node_modules
+yarn.lock
+html
+.DS_Store
+.env
+.serverless
