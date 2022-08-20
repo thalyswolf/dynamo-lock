@@ -1,0 +1,24 @@
+service: dynamo-lock
+
+provider:
+    name: aws
+    region: sa-east-1
+    runtime: provided.al2
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    consulta:
+        handler: index.php
+        description: ''
+        timeout: 28
+        layers:
+            - ${bref:layer.php-81-fpm}
+        events:
+            -   httpApi: '*'
+
+# Exclude files from deployment
+package:
+    exclude:
+        - 'node_modules/**'
