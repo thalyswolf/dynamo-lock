@@ -63,6 +63,7 @@ class AccountRepositoryDynamoWithOptimisticLock implements AccountContract {
 
             // Generate random ID
             $id = random_int(1, 1000000000);
+            $transaction->id = $id;
             $statementTransaction = [
                 'TableName' => 'Transactions',
                 'Item' => [
