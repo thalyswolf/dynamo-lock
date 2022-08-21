@@ -20,4 +20,22 @@ class AccountRepositoryDynamoWithOptimisticLockTest extends TestCase {
         $stub->method('update')->willReturn($expectedResult);
         return $stub;
     }
+
+    public function testShallGetAccountById()
+    {
+        $dbResult = [
+            'Item' => [
+                'id' => ['S' => 'faker_id'],
+                'balance' => ['N' => '1000']
+            ]
+        ];
+
+        $stubDb = $this->makeDynamoDbStub($dbResult);
+        $accountRepository = new AccountRepositoryDynamoWithOptimisticLock($stubDb);
+
+        $account = $accountRepository->getById('faker_id');
+
+        $this->assertSame('faker_id', $account->getId());
+        $this->assertSame(1000, $account->getBalance());
+    }
 }
