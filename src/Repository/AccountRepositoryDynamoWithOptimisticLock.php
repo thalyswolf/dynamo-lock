@@ -66,10 +66,11 @@ class AccountRepositoryDynamoWithOptimisticLock implements AccountContract {
             $statementTransaction = [
                 'TableName' => 'Transactions',
                 'Item' => [
-                    'id' => array('N' => "$id"),
-                    'amount' => array('N' => (string) $transaction->getAmount()),
-                    'balanceAter' => array('N' => $newbalance),
-                    'accountId' => array('S' => $transaction->getAccountId())
+                    'id' => ['N' => "$id"],
+                    'amount' => ['N' => (string) $transaction->getAmount()],
+                    'balanceAter' => ['N' => $newbalance],
+                    'accountId' => ['S' => $transaction->getAccountId()],
+                    'time' => ['S' => (string) microtime(true)]
                 ]
             ];
 
