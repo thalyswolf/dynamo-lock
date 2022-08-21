@@ -11,4 +11,13 @@ use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\isInstanceOf;
 
 class AccountRepositoryDynamoWithOptimisticLockTest extends TestCase {
+    
+    private function makeDynamoDbStub($expectedResult)
+    {
+        $stub = $this->createMock(DynamoDB::class);
+        $stub->method('connect')->willReturn(null);
+        $stub->method('findOne')->willReturn($expectedResult);
+        $stub->method('update')->willReturn($expectedResult);
+        return $stub;
+    }
 }
