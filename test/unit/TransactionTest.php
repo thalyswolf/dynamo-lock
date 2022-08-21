@@ -15,4 +15,12 @@ class TransactionTest extends TestCase {
         $this->assertSame('id', $transaction->getAccountId());
         $this->assertSame(100, $transaction->getAmount());
     }
+
+    public function testShallThrowDomainExceptionIfNegativeValueInTransaction()
+    {
+        $this->expectException(DomainException::class);
+        $account = new Account('id', 100);
+        $transaction = new Transaction(-100, $account);
+    }
+
 }
