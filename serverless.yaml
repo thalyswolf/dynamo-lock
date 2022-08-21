@@ -18,7 +18,7 @@ functions:
         events:
             -   httpApi: '*'
 
-# Exclude files from deployment
 package:
     exclude:
         - 'node_modules/**'
+        - 'results/**'
