@@ -38,4 +38,27 @@ class AccountRepositoryDynamoWithOptimisticLockTest extends TestCase {
         $this->assertSame('faker_id', $account->getId());
         $this->assertSame(1000, $account->getBalance());
     }
+
+    public function testShallExecuteAnDebit()
+    {
+        $dbResult = [
+            'Item' => [
+                'id' => ['S' => 'faker_id'],
+                'balance' => ['N' => '1000'],
+                'version' => ['N' => '1'],
+            ],
+            'Attributes' => [
+                'balance' => ['N' => '1000'],
+            ]
+        ];
+
+        $stubDb = $this->makeDynamoDbStub($dbResult);
+        $accountRepository = new AccountRepositoryDynamoWithOptimisticLock($stubDb);
+
+        $account = new Account('id', 100);
+        $transaction = new Transaction(100, $account);
+
+        $transaction = $accountRepository->debit($transaction);
+        $this->assertInstanceOf(Transaction::class, $transaction);
+    }
 }
